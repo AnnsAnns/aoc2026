@@ -1,9 +1,17 @@
 mod day_one;
+mod day_two;
 mod utils;
 
 fn main() {
-    let day_one_input = utils::file_to_string("inputs/day_one.txt");
+    let day_one_input = include_str!("../inputs/day_one.txt");
     let mut day_one_solver = day_one::DayOne::new(&day_one_input);
     day_one_solver.calculate_position();
     println!("Day One: {:?}", day_one_solver.get_number_of_zeroes());
+
+    let day_two_input = include_str!("../inputs/day_two.txt");
+    let mut day_two_solver = day_two::DayTwo::new(&day_two_input);
+    println!("Day Two: {:?}", day_two_solver);
+    day_two_solver.find_wrong_ids();
+    day_two_solver.print_wrong_ids();
+    println!("Day Two Answer: {:?}", day_two_solver.get_total_wrong_ids());
 }
