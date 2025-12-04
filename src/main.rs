@@ -20,6 +20,6 @@ fn main() {
     //
 
     let mut day_four = DayFour::new(include_str!("../inputs/day_four.txt"));
-    day_four.find_valid_pos();
+    day_four.repeat_until_no_changes();
     println!("Day Four Answer: {:?}", day_four.get_total());
 }

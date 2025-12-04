@@ -9,11 +9,12 @@ pub const GRID_DATA: &str = "..@@.@@@@.
 .@@@@@@@@.
 @.@.@@@.@.";
 
-pub const GRID_ANSWER: usize = 13;
+pub const GRID_ANSWER: usize = 46;
 
 pub struct DayFour {
     grid: Vec<Vec<bool>>,
     valid_positions: usize,
+    valid_positions_list: Vec<(usize, usize)>,
 }
 
 impl DayFour {
@@ -26,6 +27,7 @@ impl DayFour {
         DayFour {
             grid,
             valid_positions: 0,
+            valid_positions_list: Vec::new(),
         }
     }
 
@@ -71,9 +73,27 @@ impl DayFour {
                         "Valid position found at ({}, {}) with {} marked neighbors",
                         row_index, col_index, total_marked
                     );
+                    self.valid_positions_list.push((row_index, col_index));
                     self.valid_positions += 1;
                 }
             }
+        }
+    }
+
+    pub fn remove_valid_positions(&mut self) {
+        for (row, col) in &self.valid_positions_list {
+            self.grid[*row][*col] = false;
+        }
+    }
+
+    pub fn repeat_until_no_changes(&mut self) {
+        loop {
+            let previous_count = self.valid_positions;
+            self.find_valid_pos();
+            if self.valid_positions == previous_count {
+                break;
+            }
+            self.remove_valid_positions();
         }
     }
 
