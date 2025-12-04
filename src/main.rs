@@ -1,7 +1,9 @@
 use day_four::DayFour;
+use day_three::DayThree;
 
 mod day_four;
 mod day_one;
+mod day_three;
 mod day_two;
 mod utils;
 
@@ -19,7 +21,11 @@ fn main() {
     // println!("Day Two Answer: {:?}", day_two_solver.get_total_wrong_ids());
     //
 
-    let mut day_four = DayFour::new(include_str!("../inputs/day_four.txt"));
-    day_four.repeat_until_no_changes();
-    println!("Day Four Answer: {:?}", day_four.get_total());
+    // let mut day_four = DayFour::new(include_str!("../inputs/day_four.txt"));
+    // day_four.repeat_until_no_changes();
+    // println!("Day Four Answer: {:?}", day_four.get_total());
+
+    let mut day_three = DayThree::new(include_str!("../inputs/day_three.txt"));
+    day_three.process_input(12);
+    println!("Day Three Answer Part 1: {:?}", day_three.get_total());
 }
