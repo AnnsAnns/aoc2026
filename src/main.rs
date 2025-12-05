@@ -33,4 +33,9 @@ fn main() {
     let mut day_five = day_five::DayFive::new(include_str!("../inputs/day_five.txt"));
     day_five.calc_total();
     println!("Day Five Answer: {:?}", day_five.get_total_valid());
+    day_five.calc_covered_ranges();
+    println!(
+        "Valid {}",
+        day_five.calculate_all_valid_ids_from_covered_range()
+    )
 }
