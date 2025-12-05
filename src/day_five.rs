@@ -63,66 +63,29 @@ impl DayFive {
     }
 
     pub fn calc_covered_ranges(&mut self) {
-        let mut covered_ranges: HashMap<usize, usize> = HashMap::new();
+        let mut total = 0;
         let mut non_covered_ranges = self.valid_values.clone();
+        non_covered_ranges.sort_by_key(|&(start, _end)| start);
 
-        // Put first in covered
-        let (_first_start, _first_end) = non_covered_ranges.remove(0);
-
-        for (nstart, nend) in non_covered_ranges.iter() {
-            for (cstart, cend) in covered_ranges.clone().iter() {
-                let is_nstart_within_cstart = nstart >= cstart && nstart <= cend;
-                let is_nend_within_cend = nend >= cstart && nend <= cend;
-                let is_cend_within_nend = cend >= nstart && cend <= nend;
-                let is_cstart_within_nstart = cstart >= nstart && cstart <= nend;
-                let is_no_overlap = (nend < cstart) || (nstart > cend);
-
-                // Case 1: Non covered within already covered, thus we extend the covered range
-                if is_nstart_within_cstart {
-                    // Case 1b: Non Covered is larger than covered
-                    if !is_nend_within_cend {
-                        println!(
-                            "Case 1b: {} - {} extends {} - {}",
-                            nstart, nend, cstart, cend
-                        );
-                        // Extend covered end
-                        covered_ranges.insert(*cstart, *nend);
-                    }
-                    // Case 1a: Full covered within crange
-                    else {
-                        prinlnt!(
-                            "Case 1a: {} - {} fully covered by {} - {}",
-                            nstart,
-                            nend,
-                            cstart,
-                            cend
-                        );
-                        // Fully covered
-                    }
+        // Get first for inital run
+        let (mut cstart, mut cend) = non_covered_ranges[0];
+        for (start, end) in non_covered_ranges.into_iter().skip(1) {
+            if start <= cend + 1 {
+                // Case 1 & 3
+                if end > cend {
+                    cend = end;
                 }
-                // Case 2: Both start and end are outside of covered range
-                else if is_no_overlap {
-                    println!(
-                        "Case 2: {} - {} has no overlap with {} - {}",
-                        nstart, nend, cstart, cend
-                    );
-                    // No overlap, thus we can simply append to covered ranges
-                    covered_ranges.insert(*nstart, *nend);
-                } else if is_cstart_within_nstart {
-                    // Case 3: Covered start is within non-covered range
-                    if !is_cend_within_nend {
-                        // Case 3a: Extend covered end
-                        covered_ranges.insert(*nstart, *nend);
-                    } else {
-                        // Case 3b: We set cstart to nstart
-                        covered_ranges.insert(*nstart, *cend);
-                        covered_ranges.remove(cstart);
-                    }
-                }
+            } else {
+                // Case 2
+                total += cend - cstart + 1;
+                cstart = start;
+                cend = end;
             }
         }
 
-        self.covered_ranges = covered_ranges;
+        total += cend - cstart + 1;
+
+        println!("Total covered ranges: {}", total);
     }
 
     pub fn calculate_all_valid_ids_from_covered_range(&self) -> usize {
