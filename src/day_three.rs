@@ -50,7 +50,7 @@ impl DayThree {
         let mut end_cutoff = line.chars().count() - n;
 
         for i in 0..n {
-            let new_string = format!("{}", &line[start_cutoff..=end_cutoff]);
+            let new_string = line[start_cutoff..=end_cutoff].to_string();
             let largest = self.find_largest_number_in_line(&new_string);
             total = format!("{}{}", total, largest.number);
             println!(

@@ -1,5 +1,3 @@
-use day_four::DayFour;
-use day_three::DayThree;
 
 mod day_five;
 mod day_four;

@@ -41,11 +41,11 @@ impl DayTwo {
             storage.push(char);
 
             //println!("Current storage: {} for {}", storage, id);
-            if (id.chars().count() % storage.chars().count() != 0) {
+            if id.chars().count() % storage.chars().count() != 0 {
                 continue;
             }
 
-            if (id == storage) {
+            if id == storage {
                 println!("ID is the same as storage: {}", storage);
                 break;
             }
@@ -58,7 +58,7 @@ impl DayTwo {
                 let chunk_end = chunk_start + storage.chars().count();
                 let chunk = &id[chunk_start..chunk_end];
                 chunk_start += storage.chars().count();
-                if chunk.to_string() != storage {
+                if *chunk != storage {
                     println!("Mismatch: {} != {}", chunk, storage);
                     continue 'char_loop;
                 }

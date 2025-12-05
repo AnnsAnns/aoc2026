@@ -38,7 +38,7 @@ impl DayFour {
     pub fn find_valid_pos(&mut self) {
         for (row_index, row) in self.grid.iter().enumerate() {
             'col_for: for (col_index, col) in row.iter().enumerate() {
-                if col.clone() {
+                if *col {
                     let mut total_marked = 0;
 
                     // Check all 8 neighbors
