@@ -1,6 +1,7 @@
 use day_four::DayFour;
 use day_three::DayThree;
 
+mod day_five;
 mod day_four;
 mod day_one;
 mod day_three;
@@ -25,7 +26,11 @@ fn main() {
     // day_four.repeat_until_no_changes();
     // println!("Day Four Answer: {:?}", day_four.get_total());
 
-    let mut day_three = DayThree::new(include_str!("../inputs/day_three.txt"));
-    day_three.process_input(12);
-    println!("Day Three Answer Part 1: {:?}", day_three.get_total());
+    // let mut day_three = DayThree::new(include_str!("../inputs/day_three.txt"));
+    // day_three.process_input(12);
+    // println!("Day Three Answer Part 1: {:?}", day_three.get_total());
+    //
+    let mut day_five = day_five::DayFive::new(include_str!("../inputs/day_five.txt"));
+    day_five.calc_total();
+    println!("Day Five Answer: {:?}", day_five.get_total_valid());
 }
