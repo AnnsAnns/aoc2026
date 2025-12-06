@@ -5,6 +5,7 @@ mod day_one;
 mod day_three;
 mod day_two;
 mod utils;
+mod day_six;
 
 fn main() {
     // let day_one_input = include_str!("../inputs/day_one.txt");
@@ -28,12 +29,15 @@ fn main() {
     // day_three.process_input(12);
     // println!("Day Three Answer Part 1: {:?}", day_three.get_total());
     //
-    let mut day_five = day_five::DayFive::new(include_str!("../inputs/day_five.txt"));
-    day_five.calc_total();
-    println!("Day Five Answer: {:?}", day_five.get_total_valid());
-    day_five.calc_covered_ranges();
-    println!(
-        "Valid {}",
-        day_five.calculate_all_valid_ids_from_covered_range()
-    )
+    // let mut day_five = day_five::DayFive::new(include_str!("../inputs/day_five.txt"));
+    // day_five.calc_total();
+    // println!("Day Five Answer: {:?}", day_five.get_total_valid());
+    // day_five.calc_covered_ranges();
+    // println!(
+    //     "Valid {}",
+    //     day_five.calculate_all_valid_ids_from_covered_range()
+    // )
+
+    let mut day_six = day_six::DaySix::new(day_six::GRID_DATA);
+    day_six.process_grid();
 }
