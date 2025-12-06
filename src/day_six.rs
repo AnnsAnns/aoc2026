@@ -11,50 +11,81 @@ struct CellType {
 
 #[derive(Debug)]
 pub struct DaySix {
-    grid: Vec<CellType>
+    grid: Vec<CellType>,
 }
 
 impl DaySix {
     pub fn new(input: &str) -> Self {
         let mut grid = Vec::new();
         let lines: Vec<&str> = input.lines().collect();
-        
+
         if lines.is_empty() {
             return DaySix { grid };
         }
-        
-        // Split all lines into columns
-        let columns: Vec<Vec<&str>> = lines
-            .iter()
-            .map(|line| line.split_whitespace().collect())
-            .collect();
-        
-        // Get number of columns from first line
-        let num_cols = columns[0].len();
-        
-        // Process each column
-        for col_idx in 0..num_cols {
+
+        // The operation in the last line always starts on the character that is a new column
+        // Thus we need to split each line into columns based on where the operations are
+        let mut columns: Vec<Vec<String>> = Vec::new();
+        let operation_line = lines.last().unwrap();
+        let mut current_col = Vec::new();
+        let mut last_index = 0;
+        for (idx, ch) in operation_line.char_indices() {
+            if !ch.is_whitespace() {
+                // New column found
+                for line in &lines {
+                    let part = line[last_index..idx].to_string();
+                    current_col.push(part);
+                }
+                if !current_col.is_empty() && !current_col[0].is_empty() {
+                    println!("Current Col: {:?}", current_col);
+                    columns.push(current_col);
+                }
+                current_col = Vec::new();
+                last_index = idx;
+            }
+        }
+        // Add the last column
+        for line in &lines {
+            let part = line[last_index..].to_string();
+            current_col.push(part);
+        }
+        columns.push(current_col);
+
+        println!("Columns: {:?}", columns);
+
+       for col in columns {
+            let mut number_chars = Vec::new();
             let mut operation = ' ';
-            let mut numbers = Vec::new();
-            
-            for row in &columns {
-                if col_idx < row.len() {
-                    let cell = row[col_idx];
-                    let first_char = cell.chars().next().unwrap();
-                    
-                    if first_char.is_digit(10) {
-                        let number: usize = cell.parse().unwrap();
-                        numbers.push(number);
-                    } else {
-                        operation = first_char;
+
+            let cell_size = col[0].chars().count();
+            for _ in 0..cell_size {
+                number_chars.push("".to_string());
+            }
+
+            for cell in &col {
+                let first_char = cell.chars().next().unwrap();
+
+                if !first_char.is_whitespace() && !first_char.is_digit(10) {
+                    operation = first_char;
+                    continue;
+                }
+
+                for (index, ch) in cell.chars().enumerate() {
+                    if ch.is_digit(10) {
+                        number_chars[index] = format!("{}{}", number_chars[index], ch);
                     }
                 }
             }
-            
-            grid.push(CellType {
-                Operation: operation,
-                Numbers: numbers,
-            });
+
+            let mut numbers = Vec::new();
+            for num_str in number_chars {
+                if !num_str.is_empty() {
+                    let num = num_str.parse::<usize>().unwrap();
+                    numbers.push(num);
+                }
+            }
+
+            grid.push(CellType { Operation: operation, Numbers: numbers });
         }
 
         println!("Parsed Grid: {:?}", grid);
