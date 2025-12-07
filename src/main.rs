@@ -64,8 +64,19 @@ fn main() {
         "7" => {
             let mut day_seven = day_seven::DaySeven::new(day_seven::GRID_DATA);
             day_seven.draw_beams();
-            println!("Day Seven Result:\n{}", day_seven.tree_to_string());
+            println!("Day Seven Result:\n{}", day_seven.tree_to_string(&day_seven.tree));
             println!("Day Seven Splits Done: {}", day_seven.get_splits_done());
+
+            let tree = day_seven.tree_to_binary_tree();
+
+            // Display the binary tree with proper formatting
+            if let Some(tree_display) = day_seven.display_binary_tree() {
+                println!("\nBinary Tree Visualization:");
+                println!("{}", tree_display);
+            }
+
+            let paths = day_seven.calculate_all_possible_paths(&tree.unwrap());
+            println!("Possible Paths: {:?}", paths);
         }
         _ => {
             eprintln!("Invalid day: {}. Please choose 1-7.", day);
