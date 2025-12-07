@@ -5,6 +5,7 @@ mod day_four;
 mod day_one;
 mod day_six;
 mod day_three;
+mod day_seven;
 mod day_two;
 mod utils;
 
@@ -60,8 +61,14 @@ fn main() {
             let mut day_six = day_six::DaySix::new(&day_six_input);
             day_six.process_grid();
         }
+        "7" => {
+            let mut day_seven = day_seven::DaySeven::new(day_seven::GRID_DATA);
+            day_seven.draw_beams();
+            println!("Day Seven Result:\n{}", day_seven.tree_to_string());
+            println!("Day Seven Splits Done: {}", day_seven.get_splits_done());
+        }
         _ => {
-            eprintln!("Invalid day: {}. Please choose 1-6.", day);
+            eprintln!("Invalid day: {}. Please choose 1-7.", day);
             std::process::exit(1);
         }
     }
