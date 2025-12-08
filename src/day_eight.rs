@@ -43,6 +43,7 @@ pub struct DayEight {
     junction_boxes: HashMap<Coordinate, usize>,
     total_connections: usize,
     circuit_tracker: HashMap<usize, Vec<Coordinate>>,
+    handled_pairs: Vec<(Coordinate, Coordinate)>,
 }
 
 impl DayEight {
@@ -61,6 +62,7 @@ impl DayEight {
             junction_boxes,
             total_connections: 0,
             circuit_tracker: HashMap::new(),
+            handled_pairs: Vec::new(),
         }
     }
 
@@ -70,8 +72,14 @@ impl DayEight {
 
         for (coord_a, coord_a_id) in self.junction_boxes.iter() {
             for (coord_b, coord_b_id) in self.junction_boxes.iter() {
-                if coord_a_id == coord_b_id && *coord_a_id != 0 {
-                    continue; // Same circuit, skip
+                if self
+                    .handled_pairs
+                    .contains(&(coord_a.clone(), coord_b.clone()))
+                    || self
+                        .handled_pairs
+                        .contains(&(coord_b.clone(), coord_a.clone()))
+                {
+                    continue;
                 }
                 if coord_a != coord_b {
                     let distance = coord_a.euclidean_distance(coord_b);
@@ -109,8 +117,10 @@ impl DayEight {
 
     pub fn find_closest_boxes(&mut self, times: usize) {
         // Ugly but whatever
-        for i in 1..times {
+        for i in 0..times {
             let (coord_a, closest) = self.find_closest_two_boxes();
+
+            self.handled_pairs.push((coord_a.clone(), closest.clone()));
 
             println!(
                 "Iteration {}: Closest boxes are {:?} and {:?}",
@@ -124,7 +134,8 @@ impl DayEight {
             let closest_id = self.junction_boxes.get(&closest).unwrap().clone();
 
             if own_id == 0 && closest_id == 0 {
-                let new_id = self.circuit_tracker.len() + 1;
+                self.total_connections += 1;
+                let new_id = self.total_connections;
                 self.junction_boxes.insert(coord_a.clone(), new_id);
                 self.junction_boxes.insert(closest.clone(), new_id);
                 self.circuit_tracker
@@ -171,6 +182,17 @@ impl DayEight {
                     (closest_id, own_id)
                 };
 
+                println!(
+                    "Merging circuits {} and {} into {}",
+                    own_id, closest_id, keep_id
+                );
+
+                println!(
+                    "Merging Coords: {:?} into circuit id {}",
+                    self.circuit_tracker.get(&merge_id).unwrap(),
+                    keep_id
+                );
+
                 let merge_coords = self.circuit_tracker.remove(&merge_id).unwrap();
                 for coord in merge_coords.iter() {
                     self.junction_boxes.insert(coord.clone(), keep_id);
@@ -187,7 +209,7 @@ impl DayEight {
                     self.circuit_tracker.get(&keep_id).unwrap().len()
                 );
             }
-            self.print_junctions();
+            //self.print_junctions();
         }
     }
 }
