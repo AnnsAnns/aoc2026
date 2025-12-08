@@ -20,7 +20,7 @@ pub const COORDINATES: &str = "162,817,812
 425,690,689
 ";
 
-use std::collections::HashMap;
+use std::{collections::HashMap, iter};
 
 #[derive(Hash, Eq, PartialEq, Debug, Clone)]
 struct Coordinate {
@@ -72,14 +72,8 @@ impl DayEight {
 
         for (coord_a, coord_a_id) in self.junction_boxes.iter() {
             for (coord_b, coord_b_id) in self.junction_boxes.iter() {
-                if self
-                    .handled_pairs
-                    .contains(&(coord_a.clone(), coord_b.clone()))
-                    || self
-                        .handled_pairs
-                        .contains(&(coord_b.clone(), coord_a.clone()))
-                {
-                    continue;
+                if coord_a_id == coord_b_id && *coord_a_id != 0 {
+                    continue; // Same circuit, skip
                 }
                 if coord_a != coord_b {
                     let distance = coord_a.euclidean_distance(coord_b);
@@ -117,14 +111,16 @@ impl DayEight {
 
     pub fn find_closest_boxes(&mut self, times: usize) {
         // Ugly but whatever
-        for i in 0..times {
+        let mut iteration = 0;
+        while (true) {
+            iteration += 1;
             let (coord_a, closest) = self.find_closest_two_boxes();
 
             self.handled_pairs.push((coord_a.clone(), closest.clone()));
 
             println!(
                 "Iteration {}: Closest boxes are {:?} and {:?}",
-                i + 1,
+                iteration + 1,
                 coord_a,
                 closest
             );
