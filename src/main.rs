@@ -83,8 +83,9 @@ fn main() {
             println!("Possible Paths: {:?}", paths);
         }
         "8" => {
-            let mut day_eight = day_eight::DayEight::new(&day_eight::COORDINATES);
-            day_eight.find_closest_boxes(10);
+            let mut day_eight_input = utils::file_to_string("./inputs/day_eight.txt");
+            let mut day_eight = day_eight::DayEight::new(&day_eight_input);
+            day_eight.find_closest_boxes(1000);
             day_eight.print_junctions();
         }
         _ => {
