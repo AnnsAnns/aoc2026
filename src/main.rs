@@ -1,11 +1,12 @@
 use std::env;
 
+mod day_eight;
 mod day_five;
 mod day_four;
 mod day_one;
+mod day_seven;
 mod day_six;
 mod day_three;
-mod day_seven;
 mod day_two;
 mod utils;
 
@@ -64,7 +65,10 @@ fn main() {
         "7" => {
             let mut day_seven = day_seven::DaySeven::new(day_seven::GRID_DATA);
             day_seven.draw_beams();
-            println!("Day Seven Result:\n{}", day_seven.tree_to_string(&day_seven.tree));
+            println!(
+                "Day Seven Result:\n{}",
+                day_seven.tree_to_string(&day_seven.tree)
+            );
             println!("Day Seven Splits Done: {}", day_seven.get_splits_done());
 
             let tree = day_seven.tree_to_binary_tree();
@@ -77,6 +81,11 @@ fn main() {
 
             let paths = day_seven.calculate_all_possible_paths(&tree.unwrap());
             println!("Possible Paths: {:?}", paths);
+        }
+        "8" => {
+            let mut day_eight = day_eight::DayEight::new(&day_eight::COORDINATES);
+            day_eight.find_closest_boxes(10);
+            day_eight.print_junctions();
         }
         _ => {
             eprintln!("Invalid day: {}. Please choose 1-7.", day);
