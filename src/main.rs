@@ -3,6 +3,7 @@ use std::env;
 mod day_eight;
 mod day_five;
 mod day_four;
+mod day_nine;
 mod day_one;
 mod day_seven;
 mod day_six;
@@ -88,8 +89,13 @@ fn main() {
             day_eight.find_closest_boxes(1000);
             day_eight.print_junctions();
         }
+        "9" => {
+            let mut day_nine_input = utils::file_to_string("./inputs/day_nine.txt");
+            let mut day_nine = day_nine::DayNine::new(&day_nine_input);
+            println!("{}", day_nine.find_largest_rectangle());
+        }
         _ => {
-            eprintln!("Invalid day: {}. Please choose 1-7.", day);
+            eprintln!("Invalid day: {}. Please choose 1-12.", day);
             std::process::exit(1);
         }
     }
