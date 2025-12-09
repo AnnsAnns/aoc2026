@@ -142,6 +142,6 @@ impl Coords {
         let crossed_edges = self.count_crossed_edges(horizontal_lines, start_index);
 
         // We're inside the polygon if we've crossed an odd number of edges
-        crossed_edges % 2 != 0
+        !crossed_edges.is_multiple_of(2)
     }
 }

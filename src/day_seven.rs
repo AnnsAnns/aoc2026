@@ -106,8 +106,8 @@ impl DaySeven {
         let mut root = Box::new(self.root_node.take().unwrap());
         queue.push(&mut root);
 
-        while !queue.is_empty() {
-            let current_node = queue.pop().unwrap();
+        while let Some(current_node) = queue.pop() {
+            
             let x = current_node.x_pos;
             let y = current_node.y_pos;
 
@@ -275,11 +275,7 @@ impl DaySeven {
     /// Print the binary tree structure with proper formatting
     pub fn display_binary_tree(&self) -> Option<String> {
         use crate::utils::BinaryTreeDisplay;
-        if let Some(ref root) = self.root_node {
-            Some(root.display_tree())
-        } else {
-            None
-        }
+        self.root_node.as_ref().map(|root| root.display_tree())
     }
 }
 

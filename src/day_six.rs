@@ -65,13 +65,13 @@ impl DaySix {
             for cell in &col {
                 let first_char = cell.chars().next().unwrap();
 
-                if !first_char.is_whitespace() && !first_char.is_digit(10) {
+                if !first_char.is_whitespace() && !first_char.is_ascii_digit() {
                     operation = first_char;
                     continue;
                 }
 
                 for (index, ch) in cell.chars().enumerate() {
-                    if ch.is_digit(10) {
+                    if ch.is_ascii_digit() {
                         number_chars[index] = format!("{}{}", number_chars[index], ch);
                     }
                 }

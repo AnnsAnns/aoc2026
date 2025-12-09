@@ -1,7 +1,5 @@
 use std::env;
-use std::time::Instant;
 
-use crate::utils::Timer;
 
 mod day_eight;
 mod day_five;
@@ -39,19 +37,19 @@ fn main() {
             println!("Day Two Answer: {:?}", day_two_solver.get_total_wrong_ids());
         }
         "3" => {
-            let mut day_three_input = utils::file_to_string("./inputs/day_three.txt");
+            let day_three_input = utils::file_to_string("./inputs/day_three.txt");
             let mut day_three = day_three::DayThree::new(&day_three_input);
             day_three.process_input(12);
             println!("Day Three Answer Part 1: {:?}", day_three.get_total());
         }
         "4" => {
-            let mut day_four_input = utils::file_to_string("./inputs/day_four.txt");
+            let day_four_input = utils::file_to_string("./inputs/day_four.txt");
             let mut day_four = day_four::DayFour::new(&day_four_input);
             day_four.repeat_until_no_changes();
             println!("Day Four Answer: {:?}", day_four.get_total());
         }
         "5" => {
-            let mut day_five_input = utils::file_to_string("./inputs/day_five.txt");
+            let day_five_input = utils::file_to_string("./inputs/day_five.txt");
             let mut day_five = day_five::DayFive::new(&day_five_input);
             day_five.calc_total();
             println!("Day Five Answer: {:?}", day_five.get_total_valid());
@@ -62,8 +60,8 @@ fn main() {
             );
         }
         "6" => {
-            let mut day_six_input = utils::file_to_string("./inputs/day_six.txt");
-            let mut day_six = day_six::DaySix::new(&day_six_input);
+            let day_six_input = utils::file_to_string("./inputs/day_six.txt");
+            let day_six = day_six::DaySix::new(&day_six_input);
             day_six.process_grid();
         }
         "7" => {
@@ -87,14 +85,14 @@ fn main() {
             println!("Possible Paths: {:?}", paths);
         }
         "8" => {
-            let mut day_eight_input = utils::file_to_string("./inputs/day_eight.txt");
+            let day_eight_input = utils::file_to_string("./inputs/day_eight.txt");
             let mut day_eight = day_eight::DayEight::new(&day_eight_input);
             day_eight.find_closest_boxes(1000);
             day_eight.print_junctions();
         }
         "9" => {
-            let mut day_nine_input = utils::file_to_string("./inputs/day_nine.txt");
-            let mut day_nine = day_nine::DayNine::new(&day_nine_input);
+            let day_nine_input = utils::file_to_string("./inputs/day_nine.txt");
+            let day_nine = day_nine::DayNine::new(&day_nine_input);
             println!("Part 1 - {}", day_nine.find_largest_rectangle());
             let timer = utils::Timer::start();
             let part_2_val = day_nine.find_largest_rectangle_inside_polygon();

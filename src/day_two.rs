@@ -37,11 +37,11 @@ impl DayTwo {
     fn is_wrong_id(id: String) -> bool {
         let mut storage = "".to_string();
 
-        'char_loop: for (index, char) in id.char_indices() {
+        'char_loop: for (_index, char) in id.char_indices() {
             storage.push(char);
 
             //println!("Current storage: {} for {}", storage, id);
-            if id.chars().count() % storage.chars().count() != 0 {
+            if !id.chars().count().is_multiple_of(storage.chars().count()) {
                 continue;
             }
 

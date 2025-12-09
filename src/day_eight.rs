@@ -20,7 +20,7 @@ pub const COORDINATES: &str = "162,817,812
 425,690,689
 ";
 
-use std::{collections::HashMap, iter};
+use std::collections::HashMap;
 
 #[derive(Hash, Eq, PartialEq, Debug, Clone)]
 struct Coordinate {
@@ -109,7 +109,7 @@ impl DayEight {
         println!("Unassigned boxes ({}):", unassigned.len());
     }
 
-    pub fn find_closest_boxes(&mut self, times: usize) {
+    pub fn find_closest_boxes(&mut self, _times: usize) {
         // Ugly but whatever
         let mut iteration = 0;
         loop {
@@ -126,8 +126,8 @@ impl DayEight {
             );
 
             // While looping the values might have changed (Since we are looping over a copy)
-            let own_id = self.junction_boxes.get(&coord_a).unwrap().clone();
-            let closest_id = self.junction_boxes.get(&closest).unwrap().clone();
+            let own_id = *self.junction_boxes.get(&coord_a).unwrap();
+            let closest_id = *self.junction_boxes.get(&closest).unwrap();
 
             if own_id == 0 && closest_id == 0 {
                 self.total_connections += 1;

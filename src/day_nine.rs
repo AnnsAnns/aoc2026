@@ -118,11 +118,11 @@ impl DayNine {
 
         for a in self.fields.iter() {
             for b in self.fields.iter() {
-                let area = a.get_rectangle_size_with(&b);
+                let area = a.get_rectangle_size_with(b);
 
                 if area > max {
                     // Construct the rectangle from two field points
-                    let rect = Rectangle::from_coords(&a, &b);
+                    let rect = Rectangle::from_coords(a, b);
 
                     // Validate the rectangle against all constraints
                     if self.is_valid_rectangle(&rect) {
