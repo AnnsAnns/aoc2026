@@ -112,7 +112,7 @@ impl DayEight {
     pub fn find_closest_boxes(&mut self, times: usize) {
         // Ugly but whatever
         let mut iteration = 0;
-        while (true) {
+        loop {
             iteration += 1;
             let (coord_a, closest) = self.find_closest_two_boxes();
 

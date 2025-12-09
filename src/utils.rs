@@ -15,7 +15,13 @@ pub trait BinaryTreeDisplay {
         result
     }
 
-    fn display_tree_helper(&self, result: &mut String, prefix: &str, child_prefix: &str, is_root: bool) {
+    fn display_tree_helper(
+        &self,
+        result: &mut String,
+        prefix: &str,
+        child_prefix: &str,
+        is_root: bool,
+    ) {
         // Display current node
         result.push_str(&format!(
             "{}{}\n",
@@ -29,9 +35,13 @@ pub trait BinaryTreeDisplay {
         // Display left child
         if let Some(left) = self.get_left() {
             let is_last = !has_right;
-            let connector = if is_last { "└── L: " } else { "├── L: " };
+            let connector = if is_last {
+                "└── L: "
+            } else {
+                "├── L: "
+            };
             let extension = if is_last { "    " } else { "│   " };
-            
+
             left.display_tree_helper(
                 result,
                 &format!("{}{}", child_prefix, connector),
@@ -44,7 +54,7 @@ pub trait BinaryTreeDisplay {
         if let Some(right) = self.get_right() {
             let connector = "└── R: ";
             let extension = "    ";
-            
+
             right.display_tree_helper(
                 result,
                 &format!("{}{}", child_prefix, connector),
@@ -52,5 +62,22 @@ pub trait BinaryTreeDisplay {
                 false,
             );
         }
+    }
+}
+
+pub struct Timer {
+    start_time: std::time::Instant,
+}
+
+impl Timer {
+    pub fn start() -> Self {
+        Timer {
+            start_time: std::time::Instant::now(),
+        }
+    }
+
+    pub fn finish_and_print(&self, task_name: &str) {
+        let duration = self.start_time.elapsed();
+        println!("{} completed in: {:.2?}", task_name, duration);
     }
 }

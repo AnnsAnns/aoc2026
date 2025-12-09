@@ -1,4 +1,7 @@
 use std::env;
+use std::time::Instant;
+
+use crate::utils::Timer;
 
 mod day_eight;
 mod day_five;
@@ -92,7 +95,14 @@ fn main() {
         "9" => {
             let mut day_nine_input = utils::file_to_string("./inputs/day_nine.txt");
             let mut day_nine = day_nine::DayNine::new(&day_nine_input);
-            println!("{}", day_nine.find_largest_rectangle());
+            println!("Part 1 - {}", day_nine.find_largest_rectangle());
+            let timer = utils::Timer::start();
+            let part_2_val = day_nine.find_largest_rectangle_inside_polygon();
+            timer.finish_and_print("Day 9 Part 2");
+            println!(
+                "Part 2 - Largest rectangle (only red/green tiles): {}",
+                part_2_val
+            );
         }
         _ => {
             eprintln!("Invalid day: {}. Please choose 1-12.", day);
