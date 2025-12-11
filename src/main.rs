@@ -1,7 +1,7 @@
 use std::env;
 
-
 mod day_eight;
+mod day_eleven;
 mod day_five;
 mod day_four;
 mod day_nine;
@@ -101,6 +101,11 @@ fn main() {
                 "Part 2 - Largest rectangle (only red/green tiles): {}",
                 part_2_val
             );
+        }
+        "11" => {
+            let day_eleven_input = utils::file_to_string("./inputs/day_eleven.txt");
+            let mut day_eleven = day_eleven::DayEleven::new(&day_eleven_input);
+            println!("Result: {}", day_eleven.depth_first_search("you"));
         }
         _ => {
             eprintln!("Invalid day: {}. Please choose 1-12.", day);
