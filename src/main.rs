@@ -104,8 +104,18 @@ fn main() {
         }
         "11" => {
             let day_eleven_input = utils::file_to_string("./inputs/day_eleven.txt");
-            let mut day_eleven = day_eleven::DayEleven::new(&day_eleven_input);
-            println!("Result: {}", day_eleven.depth_first_search("you"));
+            let mut day_eleven = day_eleven::DayEleven::new(&day_eleven_input, false);
+            let mut filter = day_eleven::Filter::new();
+            println!(
+                "Result: {}",
+                day_eleven.depth_first_search("you", &mut filter)
+            );
+            filter = day_eleven::Filter::new();
+            let mut day_eleven_two = day_eleven::DayEleven::new(&day_eleven_input, true);
+            println!(
+                "Result: {}",
+                day_eleven_two.depth_first_search("svr", &mut filter)
+            );
         }
         _ => {
             eprintln!("Invalid day: {}. Please choose 1-12.", day);
