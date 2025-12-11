@@ -1,16 +1,20 @@
-pub const EXAMPLE: &str = "aaa: you hhh
-you: bbb ccc
-bbb: ddd eee
-ccc: ddd eee fff
-ddd: ggg
-eee: out
-fff: out
+pub const EXAMPLE: &str = "svr: aaa bbb
+aaa: fft
+fft: ccc
+bbb: tty
+tty: ccc
+ccc: ddd eee
+ddd: hub
+hub: fff
+eee: dac
+dac: fff
+fff: ggg hhh
 ggg: out
-hhh: ccc fff iii
-iii: out";
+hhh: out";
 
 use std::collections::HashMap;
 
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Debug)]
 pub struct Filter {
     went_through_dac: bool,
     went_through_fft: bool,
@@ -29,9 +33,24 @@ impl Filter {
     }
 }
 
+#[derive(Hash, Eq, PartialEq, Debug, Clone)]
+pub struct CacheKey {
+    key: String,
+    filter: Filter,
+}
+
+impl CacheKey {
+    pub fn new(key: String, filter: Filter) -> Self {
+        CacheKey {
+            key: key,
+            filter: filter,
+        }
+    }
+}
+
 pub struct DayEleven {
     input: HashMap<String, Vec<String>>,
-    cache: HashMap<String, usize>,
+    cache: HashMap<CacheKey, usize>,
     should_filter: bool,
 }
 
@@ -60,7 +79,7 @@ impl DayEleven {
         }
     }
 
-    pub fn depth_first_search(&mut self, key: &str, filter_state: &mut Filter) -> usize {
+    pub fn depth_first_search(&mut self, key: &str, mut filter_state: Filter) -> usize {
         if self.should_filter {
             if key == "dac" {
                 filter_state.went_through_dac = true;
@@ -79,7 +98,8 @@ impl DayEleven {
             }
         }
 
-        if let Some(&size) = self.cache.get(key) {
+        let cache_key = CacheKey::new(key.to_string(), filter_state);
+        if let Some(&size) = self.cache.get(&cache_key) {
             return size;
         }
         let children = &self.input[key].clone();
@@ -89,7 +109,8 @@ impl DayEleven {
             .map(|node| self.depth_first_search(node, filter_state))
             .sum();
 
-        self.cache.insert(key.to_string(), size);
+        let cache_key = CacheKey::new(key.to_string(), filter_state);
+        self.cache.insert(cache_key, size);
         size
     }
 }

@@ -1,5 +1,7 @@
 use std::env;
 
+use crate::day_eleven::Filter;
+
 mod day_eight;
 mod day_eleven;
 mod day_five;
@@ -105,17 +107,19 @@ fn main() {
         "11" => {
             let day_eleven_input = utils::file_to_string("./inputs/day_eleven.txt");
             let mut day_eleven = day_eleven::DayEleven::new(&day_eleven_input, false);
-            let mut filter = day_eleven::Filter::new();
-            println!(
-                "Result: {}",
-                day_eleven.depth_first_search("you", &mut filter)
-            );
-            filter = day_eleven::Filter::new();
+
+            // Part 1
+            let timer = utils::Timer::start();
+            let result = day_eleven.depth_first_search("you", Filter::new());
+            timer.finish_and_print("Day 11 Part 1");
+            println!("Result: {}", result);
+
+            // Part 2
             let mut day_eleven_two = day_eleven::DayEleven::new(&day_eleven_input, true);
-            println!(
-                "Result: {}",
-                day_eleven_two.depth_first_search("svr", &mut filter)
-            );
+            let timer = utils::Timer::start();
+            let result = day_eleven_two.depth_first_search("svr", Filter::new());
+            timer.finish_and_print("Day 11 Part 2");
+            println!("Result: {}", result);
         }
         _ => {
             eprintln!("Invalid day: {}. Please choose 1-12.", day);
